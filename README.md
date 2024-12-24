@@ -1,57 +1,60 @@
-![image](https://github.com/user-attachments/assets/931c3282-1edc-4572-b2f6-44b6d3b8b251)
+![image](https://github.com/user-attachments/assets/04ac5da5-7933-4e4d-8088-2aa451e60e3c)
 
-การแสดงผลผ่านหน้าจอ VGA โดยมีองค์ประกอบหลักที่แสดงในภาพดังนี้: 
-1. ตัวละครไดโนเสาร์ (Dinosaur)
-•	หน้าที่: เป็นตัวละครหลักที่ผู้เล่นควบคุม
-•	การควบคุม: ผู้เล่นสามารถกดปุ่ม (บน Basys3) เพื่อทำให้ไดโนเสาร์กระโดดข้ามสิ่งกีดขวาง
-•	ตำแหน่ง: ปรากฏที่ตำแหน่งคงที่ในแกน X แต่ตำแหน่งในแกน Y จะเปลี่ยนแปลงเมื่อกระโดด
-2. กระบองเพชร 1 และ 2 (Obstacles)
-•	หน้าที่: ทำหน้าที่เป็นสิ่งกีดขวางที่ผู้เล่นต้องหลบหลีก
-•	การเคลื่อนที่: เคลื่อนที่จากขวาไปซ้าย โดยมีความเร็วที่เพิ่มขึ้นตามระดับคะแนนของผู้เล่น
-•	การรีเซ็ตตำแหน่ง: เมื่อสิ่งกีดขวางเคลื่อนที่ออกไปจากหน้าจอ จะถูกรีเซ็ตกลับไปที่ตำแหน่งเริ่มต้นด้านขวา พร้อมการปรับตำแหน่งสุ่มเพื่อความท้าทาย
-3. พื้นดิน (Ground)
-•	หน้าที่: ทำหน้าที่เป็นเส้นอ้างอิงสำหรับการกระโดดและการตรวจจับการชน (Collision Detection)
-•	การแสดงผล: เป็นเส้นสีแนวนอนที่คงที่ในตำแหน่งเดียว
-4. การตรวจจับการชน (Collision Detection)
-•	หลักการทำงาน: ตรวจสอบว่าตัวละครไดโนเสาร์มีการชนกับกระบองเพชรหรือไม่
-•	เงื่อนไข:
-o	ตำแหน่ง X และ Y ของไดโนเสาร์ต้องทับซ้อนกับตำแหน่ง X และ Y ของกระบองเพชรในช่วงที่กระบองเพชรเคลื่อนที่ผ่าน
-o	หากเกิดการชน เกมจะหยุดและแสดงผลสถานะการชน
 
-![image](https://github.com/user-attachments/assets/02d21cc8-b531-477a-8edd-3e959620b412)
+The display on the VGA screen consists of the following main components:
 
-บอร์ด Basys3 ที่ใช้ในการควบคุมตัวเกมและการแสดงผลคะแนน โดยมีองค์ประกอบหลักที่ใช้งานดังนี้:
-1. แสดงคะแนน (7-Segment Display)
-•	รายละเอียด: ใช้ 7-segment display ทั้ง 4 หลักบนบอร์ด Basys3 เพื่อแสดงคะแนนสะสมของผู้เล่น
-•	การอัปเดต: คะแนนจะเพิ่มขึ้นเมื่อผู้เล่นหลบหลีกสิ่งกีดขวางได้สำเร็จ โดยตัวเลขจะแสดงอย่างต่อเนื่อง
-2. ปุ่มกระโดด (Jump Button)
-•	ตำแหน่ง: ปุ่ม BTNU (ปุ่มบน)
-•	หน้าที่: ใช้สำหรับกระโดดหลบสิ่งกีดขวางในเกม
-•	วิธีการทำงาน: เมื่อกดปุ่ม จะส่งสัญญาณไปที่โมดูลควบคุมในโค้ด Verilog เพื่อปรับตำแหน่งแกน Y ของตัวละครไดโนเสาร์
-3. ปุ่ม Reset
-•	ตำแหน่ง: ปุ่ม BTNC (ปุ่มกลาง)
-•	หน้าที่: ใช้สำหรับรีเซ็ตเกมให้กลับไปเริ่มต้นใหม่
-•	การทำงาน:
-o	คะแนนจะถูกรีเซ็ตเป็นศูนย์
-o	ตำแหน่งตัวละครและสิ่งกีดขวางจะถูกตั้งค่าเริ่มต้นใหม่
-4. การเชื่อมต่อกับหน้าจอ (VGA Port)
-•	รายละเอียด: ใช้พอร์ต VGA บน Basys3 สำหรับส่งสัญญาณภาพไปยังหน้าจอคอมพิวเตอร์
-•	รูปแบบภาพ: ตัวเกมจะแสดงผลกราฟิก เช่น ตัวละครไดโนเสาร์, สิ่งกีดขวาง, และพื้นดิน ตามตำแหน่งที่คำนวณจากโค้ด
-หลักการทำงานโดยรวม
-1.	ผู้เล่นเริ่มเกม:
-o	กดปุ่ม Reset เพื่อรีเซ็ตเกม
-o	ดูคะแนนเริ่มต้นเป็นศูนย์บน 7-segment display
-2.	ควบคุมไดโนเสาร์:
-o	กดปุ่มกระโดดเพื่อหลบสิ่งกีดขวาง
-o	หากหลบสำเร็จ คะแนนจะเพิ่มขึ้น
-3.	เกมจบ:
-o	หากตัวละครชนกับสิ่งกีดขวาง ระบบจะหยุดการทำงานของเกม
+Dinosaur Character
 
-แนวทางในการพัฒนาต่อในอนาคต
+Role: The player controls the main character.
+Control: The player can press a button (on the Basys3 board) to make the dinosaur jump over obstacles.
+Position: Fixed on the X-axis, but the Y-axis position changes when jumping.
+Cactus 1 and 2 (Obstacles)
 
-•	เพิ่มฟังก์ชันให้มากขึ้น เช่น การหมอบ , ระบบไอเทมพิเศษ เป็นต้น
+Role: Serve as obstacles that the player must avoid.
+Movement: Move from right to left, increasing speed as the player’s score increases.
+Position Reset: When an obstacle moves off the screen, it resets to its initial position on the right, with a random repositioning for added challenge.
+Ground
 
-•	จัดการระบบการนับแต้มให้ดีและเสถียรขึ้น
+Role: Acts as a reference line for jumping and collision detection.
+Display: A fixed horizontal line displayed in a constant position.
+Collision Detection
 
-•	ปรับ UI ให้มีความน่าเล่นมากขึ้น โดยอาจจะเพิ่มรายละเอียดต่างๆ เช่น ก้อนเมฆ , นก , ดวงอาทิตย์ เป็นต้น
+Functionality: Checks if the dinosaur character collides with a cactus.
+Conditions:
+The dinosaur's X and Y positions must overlap with the cactus's X and Y positions while the cactus is moving across the screen.
+If a collision occurs, the game stops and displays the collision status.
+
+![image](https://github.com/user-attachments/assets/45091f3b-f1ed-4c2a-a95c-58a947dc702b)
+
+The Basys3 board is used to control the game and display the score, with the following key components:
+
+1. Score Display (7-Segment Display)
+Details: Utilizes all four 7-segment displays on the Basys3 board to show the player's accumulated score.
+Update: The score increases when the player successfully avoids obstacles, and the numbers are displayed continuously.
+2. Jump Button
+Position: BTNU (Up Button).
+Function: Used to make the dinosaur jump over obstacles.
+Operation: Pressing the button sends a signal to the control module in the Verilog code, adjusting the Y-axis position of the dinosaur character.
+3. Reset Button
+Position: BTNC (Center Button).
+Function: Resets the game to its initial state.
+Operation:
+Resets the score to zero.
+Reinitializes the position of the character and obstacles.
+4. VGA Screen Connection (VGA Port)
+Details: Uses the VGA port on the Basys3 board to send video signals to a monitor.
+Graphics Display: The game renders graphics such as the dinosaur character, obstacles, and ground-based on position calculations in the code.
+Overall Workflow
+Starting the Game:
+Press the Reset button to initialize the game.
+Observe the score reset to zero on the 7-segment display.
+Controlling the Dinosaur:
+Press the Jump button to avoid obstacles.
+The score increases for every successful dodge.
+Game Over:
+If the character collides with an obstacle, the system halts the game.
+Future Development Directions
+Add More Features: Incorporate new mechanics like crouching and special item systems.
+Improve Scoring System: Ensure it is more robust and stable.
+Enhance the UI: Make the interface more engaging by adding elements such as clouds, birds, and the sun.
 
